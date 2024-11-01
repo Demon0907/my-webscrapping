@@ -1,4 +1,4 @@
-import { OrderDetails } from "@/scraping/orderScraping";
+import { OrderDetails } from "@/scraping/amazon/orderScraping";
 
 interface OrdersProps {
   orders: OrderDetails[];

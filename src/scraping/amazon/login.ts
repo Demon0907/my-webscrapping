@@ -82,7 +82,7 @@ export const initialize = async () => {
   return { page: amazonPage, browser: amazonBrowser };
 };
 
-const navigateToLoginPage = async (page: Page, url: string) => {
+export const navigateToLoginPage = async (page: Page, url: string) => {
   try {
     await page.goto(url, { waitUntil: "networkidle0" });
   } catch (error: unknown) {
@@ -131,7 +131,7 @@ interface LoginResponse {
   error?: string;
 }
 
-interface LoginResponseWithOrders extends LoginResponse {
+export interface LoginResponseWithOrders extends LoginResponse {
   orders?: OrderDetails[];
 }
 

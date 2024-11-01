@@ -1,14 +1,18 @@
 "use client";
 
-import { OrderDetails } from "@/scraping/orderScraping";
+import { OrderDetails } from "@/scraping/amazon/orderScraping";
 import React, { useState } from "react";
 
 interface LoginProps {
-  onLoginSuccess: (orders: OrderDetails[]) => void;
+  onLoginSuccess: (orders: OrderDetails[] | string) => void;
+  platform: "amazon" | "ajio" | null;
 }
 
-const Login = ({ onLoginSuccess }: LoginProps) => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+const Login = ({ onLoginSuccess, platform }: LoginProps) => {
+  const [formData, setFormData] = useState<{
+    username: string;
+    password?: string;
+  }>({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -18,7 +22,7 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
     setError("");
 
     try {
-      const response = await fetch("/api/amazonLogin", {
+      const response = await fetch(`/api/${platform}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,7 +36,11 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
       const data = await response.json();
 
       if (data.success) {
-        onLoginSuccess(data.orders);
+        if (platform === "ajio") {
+          onLoginSuccess(data.message);
+        } else {
+          onLoginSuccess(data.orders);
+        }
       } else {
         setError(data.message || "Login failed");
       }
@@ -48,7 +56,7 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
     <div className="flex justify-center items-center min-h-[80vh]">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          Login to Amazon
+          Login to {platform?.toUpperCase()}
         </h2>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
@@ -56,7 +64,7 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
               htmlFor="username"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Username
+              {platform === "amazon" ? "Username" : "Mobile Number"}
             </label>
             <input
               id="username"
@@ -69,24 +77,26 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
             />
           </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-              placeholder="Enter your password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-            />
-          </div>
+          {platform === "amazon" && (
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+                placeholder="Enter your password"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+              />
+            </div>
+          )}
           <button
             type="submit"
             disabled={loading}

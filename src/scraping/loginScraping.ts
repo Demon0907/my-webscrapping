@@ -1,10 +1,5 @@
 "use server";
-import puppeteer, {
-  Browser,
-  Page,
-  PuppeteerLaunchOptions,
-} from "puppeteer-core";
-import { getOptions } from "./amazonLogin";
+import { Browser, Page } from "puppeteer-core";
 
 interface LoginCredentials {
   username: string;
@@ -13,22 +8,6 @@ interface LoginCredentials {
 
 let browser: Browser | null = null;
 let page: Page | null = null;
-
-export const initialize = async () => {
-  const options = await getOptions();
-  browser = await puppeteer.launch(options as PuppeteerLaunchOptions);
-
-  page = await browser.newPage();
-
-  page.setDefaultNavigationTimeout(30000);
-
-  await page.setJavaScriptEnabled(true);
-
-  await page.setUserAgent(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-  );
-  console.log("Browser launched successfully");
-};
 
 const waitForManualVerification = async (page: Page): Promise<void> => {
   console.log(
