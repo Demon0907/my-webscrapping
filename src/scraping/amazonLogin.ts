@@ -31,12 +31,13 @@ export const getOptions = async () => {
         "--no-sandbox",
         "--incognito",
         "--hide-scrollbars",
+        "--font-render-hinting=none",
+        "--disable-font-subpixel-positioning",
       ],
-      executablePath: await chromium.executablePath(
-        "https://github.com/Sparticuz/chromium/releases/download/v110.0.1/chromium-v110.0.1-pack.tar"
-      ),
-      headless: true,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
       defaultViewport: chromium.defaultViewport,
+      ignoreHTTPSErrors: true,
     };
   } else {
     let executablePath = "";
