@@ -1,6 +1,10 @@
 "use server";
-import puppeteer, { Browser, Page } from "puppeteer-core";
-import chromium from "chrome-aws-lambda";
+import puppeteer, {
+  Browser,
+  Page,
+  PuppeteerLaunchOptions,
+} from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 import { getOrderHistory, OrderDetails } from "./orderScraping";
 
 interface LoginCredentials {
@@ -41,7 +45,7 @@ export const getOptions = async () => {
 };
 export const initialize = async () => {
   const options = await getOptions();
-  amazonBrowser = await puppeteer.launch(options);
+  amazonBrowser = await puppeteer.launch(options as PuppeteerLaunchOptions);
 
   amazonPage = await amazonBrowser.newPage();
 

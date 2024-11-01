@@ -1,5 +1,9 @@
 "use server";
-import puppeteer, { Browser, Page } from "puppeteer-core";
+import puppeteer, {
+  Browser,
+  Page,
+  PuppeteerLaunchOptions,
+} from "puppeteer-core";
 import { getOptions } from "./amazonLogin";
 
 interface LoginCredentials {
@@ -12,7 +16,7 @@ let page: Page | null = null;
 
 export const initialize = async () => {
   const options = await getOptions();
-  browser = await puppeteer.launch(options);
+  browser = await puppeteer.launch(options as PuppeteerLaunchOptions);
 
   page = await browser.newPage();
 
