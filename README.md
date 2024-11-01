@@ -51,7 +51,7 @@ Once the server is running, you can access the application at `http://localhost:
 - Supports both production and development environments
 - Works on both Windows and MacOS
 
-## Usage
+### Usage
 
 1. Start the application:
 2. The scraper will:
@@ -61,14 +61,13 @@ Once the server is running, you can access the application at `http://localhost:
    - Extract details of up to 10 most recent orders
    - Return the order data in JSON format
 
-## Error Handling
+### Error Handling
 
 The scraper includes handling for:
 - Invalid credentials
 - 2FA verification for recaptcha
 - Manual email correction if needed
 
--------------------------------------------
 
 ## Ajio Login Automation
 
