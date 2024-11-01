@@ -4,8 +4,8 @@ import puppeteer, {
   Page,
   PuppeteerLaunchOptions,
 } from "puppeteer-core";
-import chromium from "@sparticuz/chromium";
 import { getOrderHistory, OrderDetails } from "./orderScraping";
+import chromium from "chrome-aws-lambda";
 
 interface LoginCredentials {
   username: string;
