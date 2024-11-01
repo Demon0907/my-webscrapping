@@ -26,20 +26,43 @@ export const getAmazonInstance = async (): Promise<{
 export const getOptions = async () => {
   if (process.env.NODE_ENV === "production") {
     return {
-      args: chromium.args,
+      args: [
+        ...chromium.args,
+        "--no-sandbox",
+        "--incognito",
+        "--hide-scrollbars",
+      ],
       executablePath: await chromium.executablePath,
       headless: true,
       defaultViewport: chromium.defaultViewport,
     };
   } else {
-    // Mac OS
-    const executablePath =
-      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+    let executablePath = "";
+    // check for platform
+    if (process.platform === "darwin") {
+      // Mac OS
+      executablePath =
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+    } else if (process.platform === "linux") {
+      // Linux
+      executablePath = "/usr/bin/google-chrome";
+    } else if (process.platform === "win32") {
+      // Windows
+      executablePath =
+        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
+    }
 
     return {
-      args: [],
+      headless: false,
+      defaultViewport: { width: 1280, height: 800 },
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-accelerated-2d-canvas",
+        "--disable-gpu",
+      ],
       executablePath: executablePath,
-      headless: true,
     };
   }
 };
