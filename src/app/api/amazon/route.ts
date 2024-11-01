@@ -1,4 +1,4 @@
-import { initialize, login } from "@/scraping/amazon/login";
+import { initialize, login } from "@/scraping/amazon/amazonLogin";
 import { NextResponse } from "next/server";
 
 const AMAZON_LOGIN_URL =

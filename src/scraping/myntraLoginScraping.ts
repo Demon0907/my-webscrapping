@@ -4,7 +4,7 @@ import puppeteer, {
   Page,
   PuppeteerLaunchOptions,
 } from "puppeteer-core";
-import { getOptions } from "./amazon/login";
+import { getOptions } from "./amazon/amazonLogin";
 
 interface LoginCredentials {
   username: string;

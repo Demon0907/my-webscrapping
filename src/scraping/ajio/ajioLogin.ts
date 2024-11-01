@@ -8,7 +8,7 @@ import {
   getOptions,
   LoginResponseWithOrders,
   navigateToLoginPage,
-} from "../amazon/login";
+} from "../amazon/amazonLogin";
 
 let ajioBrowser: Browser | null = null;
 let ajioPage: Page | null = null;

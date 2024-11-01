@@ -2,35 +2,95 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+# E-commerce Order Scraper
+
+Brief description of your project and what it does.
+
+## Prerequisites
+
+- Node.js (v14.0.0 or higher)
+- npm (v6.0.0 or higher)
+- Any other specific requirements
+
+## Installation
+
+1. Clone the repository
+2. Install dependencies: `yarn install` or `npm install`
+3. Start the development server: `yarn run dev` or `npm run dev`
+
 First, run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+Once the server is running, you can access the application at `http://localhost:3000`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
+- Select the platform (Amazon or Ajio)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Important Login Steps:
+1. For Order History Scraping:
+   - Login with Amazon credentials
+   - View your recent order history automatically extracted
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. For Manual Factor Authentication (MFA):
+   - Login with Ajio mobile number
+   - Complete OTP verification manually
+   - Access your Ajio account securely
 
-## Learn More
+## Amazon Login and Order Scraping
+- Automated Amazon login
+- Handles 2FA verification if required (waits for manual verification)
+- Extracts order details including:
+  - Product name
+  - Price
+  - Product link
+  - Order date
+- Supports both production and development environments
+- Works on both Windows and MacOS
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Start the application:
+2. The scraper will:
+   - Launch a Chrome browser instance
+   - Navigate to Amazon
+   - Log in using your credentials
+   - Extract details of up to 10 most recent orders
+   - Return the order data in JSON format
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Error Handling
 
-## Deploy on Vercel
+The scraper includes handling for:
+- Invalid credentials
+- 2FA verification for recaptcha
+- Manual email correction if needed
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-------------------------------------------
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Ajio Login Automation
+
+This module provides automated login functionality for Ajio.com using Puppeteer.
+
+### Key Features
+
+- Automated browser initialization with custom configurations
+- Handles login process including OTP verification with Manual Factor Authentication(MFA)
+- Manages modal popups automatically
+- Includes error handling and timeout management
+
+### Main Functions
+
+#### `initialize()`
+Initializes a new browser instance with required configurations.
+
+
+#### `login(page, url, credentials)`
+Handles the complete login flow including:
+- Navigation to login page
+- Modal handling
+- Mobile number input
+- OTP verification
+- Login status verification
