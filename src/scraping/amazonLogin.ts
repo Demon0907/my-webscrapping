@@ -1,5 +1,6 @@
 "use server";
-import puppeteer, { Browser, Page } from "puppeteer";
+import puppeteer, { Browser, Page } from "puppeteer-core";
+import chromium from "chrome-aws-lambda";
 import { getOrderHistory, OrderDetails } from "./orderScraping";
 
 interface LoginCredentials {
@@ -19,15 +20,10 @@ export const getAmazonInstance = async (): Promise<{
 
 export const initialize = async () => {
   amazonBrowser = await puppeteer.launch({
-    headless: false,
-    defaultViewport: { width: 1280, height: 800 },
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-accelerated-2d-canvas",
-      "--disable-gpu",
-    ],
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless,
   });
 
   amazonPage = await amazonBrowser.newPage();

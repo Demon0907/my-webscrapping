@@ -1,5 +1,6 @@
 "use server";
-import puppeteer, { Browser, Page } from "puppeteer";
+import puppeteer, { Browser, Page } from "puppeteer-core";
+import chromium from "chrome-aws-lambda";
 
 interface LoginCredentials {
   username: string;
@@ -11,15 +12,10 @@ let page: Page | null = null;
 
 export const initialize = async () => {
   browser = await puppeteer.launch({
-    headless: false,
-    defaultViewport: { width: 1280, height: 800 },
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-accelerated-2d-canvas",
-      "--disable-gpu",
-    ],
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless,
   });
 
   page = await browser.newPage();
