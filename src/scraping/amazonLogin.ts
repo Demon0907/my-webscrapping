@@ -7,11 +7,18 @@ interface LoginCredentials {
   password: string;
 }
 
-let browser: Browser | null = null;
-let page: Page | null = null;
+let amazonBrowser: Browser | null = null;
+let amazonPage: Page | null = null;
+
+export const getAmazonInstance = async (): Promise<{
+  page: Page | null;
+  browser: Browser | null;
+}> => {
+  return { page: amazonPage, browser: amazonBrowser };
+};
 
 export const initialize = async () => {
-  browser = await puppeteer.launch({
+  amazonBrowser = await puppeteer.launch({
     headless: false,
     defaultViewport: { width: 1280, height: 800 },
     args: [
@@ -23,16 +30,18 @@ export const initialize = async () => {
     ],
   });
 
-  page = await browser.newPage();
+  amazonPage = await amazonBrowser.newPage();
 
-  page.setDefaultNavigationTimeout(30000);
+  amazonPage.setDefaultNavigationTimeout(30000);
 
-  await page.setJavaScriptEnabled(true);
+  await amazonPage.setJavaScriptEnabled(true);
 
-  await page.setUserAgent(
+  await amazonPage.setUserAgent(
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
   );
   console.log("Browser launched successfully");
+
+  return { page: amazonPage, browser: amazonBrowser };
 };
 
 const navigateToLoginPage = async (page: Page, url: string) => {
@@ -89,6 +98,7 @@ interface LoginResponseWithOrders extends LoginResponse {
 }
 
 export const login = async (
+  page: Page,
   url: string,
   credentials: LoginCredentials
 ): Promise<LoginResponseWithOrders> => {
@@ -218,6 +228,7 @@ export const login = async (
     if (loginStatus) {
       // Fetch orders immediately after successful login
       const orderResult = await getOrderHistory(page);
+      console.log("🚀 ~ orderResult:", orderResult);
 
       return {
         success: true,
@@ -243,9 +254,9 @@ export const login = async (
 };
 
 export const close = async () => {
-  if (browser) {
-    await browser.close();
-    browser = null;
-    page = null;
+  if (amazonBrowser) {
+    await amazonBrowser.close();
+    amazonBrowser = null;
+    amazonPage = null;
   }
 };

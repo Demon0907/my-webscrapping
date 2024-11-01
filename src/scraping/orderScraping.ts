@@ -56,7 +56,7 @@ export const getOrderHistory = async (page: Page): Promise<OrderResponse> => {
       );
 
       if (orderElements.length === 0) {
-        console.log("No oredr elements found - DOM may not be ready");
+        console.log("No order elements found - DOM may not be ready");
         return { orders: [] };
       }
 
@@ -95,7 +95,7 @@ export const getOrderHistory = async (page: Page): Promise<OrderResponse> => {
       return { orders: ordersData };
     });
 
-    console.log("Step 5: Order extraction completed");
+    console.log("Step 6: Order extraction completed");
     console.log("Orders found:", orders.orders.length);
 
     return {
