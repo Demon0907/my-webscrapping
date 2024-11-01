@@ -1,7 +1,7 @@
 "use client";
 
-import Login from "@/components/Amazon/Login";
-import Orders from "@/components/Amazon/Orders";
+import Login from "@/components/Login";
+import Orders from "@/components/Orders";
 import { OrderDetails } from "@/scraping/amazon/orderScraping";
 import React, { useState } from "react";
 

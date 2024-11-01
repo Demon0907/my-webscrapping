@@ -55,7 +55,9 @@ export const login = async (
 
   try {
     console.log("Step 1: Starting login process");
-    await navigateToLoginPage(page, url);
+    await navigateToLoginPage(page, url).catch(() => {
+      throw new Error("Failed to navigate to login page");
+    });
     console.log("Step 2: Completed initial page load");
 
     const modalId = "modalId";
@@ -104,96 +106,126 @@ async function closeModalAutomatically(page: Page) {
 }
 
 async function proceedWithLogin(page: Page, mobile: string) {
-  console.log("Starting login process");
-  //   await page.waitForSelector(`.guest-header`)
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  await page.waitForSelector(`#loginAjio`);
-  const signUpModalLink = await page.$("#loginAjio");
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  await signUpModalLink?.click();
-
-  await page.waitForSelector(`.modal-login-container`);
-  console.log("Login modal opened");
-
-  await page.waitForSelector('input[name="username"]');
-  console.log("Step 5: Entering username");
-  await page.type('input[name="username"]', mobile, { delay: 100 });
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
-  // Add submit button click
-  const submitButton = await page.waitForSelector('input[type="submit"]');
-  if (!submitButton) throw new Error("Could not find submit button");
-  await submitButton.click();
-  console.log("Waiting for OTP section");
-
-  // Add network response listener before OTP submission
-  const otpValidationPromise = new Promise<{
-    profileResponse?: unknown;
-  }>((resolve, reject) => {
-    page.on("response", async (response) => {
-      if (response.url().includes("/api/auth/login")) {
-        try {
-          const data = await response.json();
-          resolve(data);
-        } catch (e) {
-          reject(e);
-          console.error("Failed to parse response:", e);
-        }
-      }
-    });
-  });
-
-  const checkLoginStatus = async (): Promise<boolean> => {
-    // Check for sign out link
-    const signOutLink = await page.$('.guest-header a[aria-label="Sign Out"]');
-    return !!signOutLink;
-  };
-
-  // Wait for OTP input and submission (your existing code)
-  await page.waitForSelector('input[name="otp"]', { timeout: 60000 });
-  console.log("OTP input field detected");
-
-  // Wait for both OTP submission and API response
   try {
-    const [apiResponse] = await Promise.all([
-      otpValidationPromise,
-      Promise.race([
-        page.waitForNavigation({ timeout: 300000 }),
-        page.waitForFunction(
-          () => !document.querySelector(".modal-login-container"),
-          { timeout: 300000 }
-        ),
-      ]),
-    ]);
+    console.log("Starting login process");
 
-    // Check API response
-    if (!apiResponse.profileResponse) {
-      throw new Error("Invalid OTP entered");
+    // Wait for login button with timeout
+    const loginButton = await page
+      .waitForSelector(`#loginAjio`, { timeout: 5000 })
+      .catch(() => {
+        throw new Error("Login button not found");
+      });
+
+    if (!loginButton) {
+      throw new Error("Login button not available");
     }
 
-    await page.waitForNavigation({ timeout: 300000 });
+    await loginButton.click().catch(() => {
+      throw new Error("Failed to click login button");
+    });
 
-    const loginStatus = await checkLoginStatus();
-    if (loginStatus) {
-      console.log("OTP verification successful");
+    // Wait for modal with timeout
+    await page
+      .waitForSelector(`.modal-login-container`, { timeout: 5000 })
+      .catch(() => {
+        throw new Error("Login modal failed to open");
+      });
+
+    // Wait for username input with timeout
+    const usernameInput = await page
+      .waitForSelector('input[name="username"]', { timeout: 5000 })
+      .catch(() => {
+        throw new Error("Username input not found");
+      });
+
+    if (!usernameInput) {
+      throw new Error("Username input not available");
+    }
+
+    await usernameInput.type(mobile, { delay: 100 }).catch(() => {
+      throw new Error("Failed to enter username");
+    });
+
+    // Add submit button click
+    const submitButton = await page.waitForSelector('input[type="submit"]');
+    if (!submitButton) throw new Error("Could not find submit button");
+    await submitButton.click();
+    console.log("Waiting for OTP section");
+
+    // Add network response listener before OTP submission
+    const otpValidationPromise = new Promise<{
+      profileResponse?: unknown;
+    }>((resolve, reject) => {
+      page.on("response", async (response) => {
+        if (response.url().includes("/api/auth/login")) {
+          try {
+            const data = await response.json();
+            resolve(data);
+          } catch (e) {
+            reject(e);
+            console.error("Failed to parse response:", e);
+          }
+        }
+      });
+    });
+
+    const checkLoginStatus = async (): Promise<boolean> => {
+      // Check for sign out link
+      const signOutLink = await page.$(
+        '.guest-header a[aria-label="Sign Out"]'
+      );
+      return !!signOutLink;
+    };
+
+    // Wait for OTP input and submission (your existing code)
+    await page.waitForSelector('input[name="otp"]', { timeout: 60000 });
+    console.log("OTP input field detected");
+
+    // Wait for both OTP submission and API response
+    try {
+      const [apiResponse] = await Promise.all([
+        otpValidationPromise,
+        Promise.race([
+          page.waitForNavigation({ timeout: 300000 }),
+          page.waitForFunction(
+            () => !document.querySelector(".modal-login-container"),
+            { timeout: 300000 }
+          ),
+        ]),
+      ]);
+
+      // Check API response
+      if (!apiResponse.profileResponse) {
+        throw new Error("Invalid OTP entered");
+      }
+
+      await page.waitForNavigation({ timeout: 300000 });
+
+      const loginStatus = await checkLoginStatus().catch(() => false);
+      if (!loginStatus) {
+        throw new Error("Login verification failed");
+      }
+
       return {
         success: true,
         message: `Successfully logged in to Ajio with OTP(${mobile}) with Manual Factor Authentication`,
       };
+    } catch (error) {
+      console.error("Login failed:", error);
+      return {
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Unknown error occurred",
+        error: "LOGIN_PROCESS_ERROR",
+      };
     }
-    return {
-      success: false,
-      message: "Login verification failed",
-      error: "LOGIN_VERIFICATION_FAILED",
-    };
   } catch (error) {
-    console.error("Login failed:", error);
+    console.error("Login process failed:", error);
     return {
       success: false,
       message:
         error instanceof Error ? error.message : "Unknown error occurred",
-      error: "LOGIN_ERROR",
+      error: "LOGIN_PROCESS_ERROR",
     };
   }
 }
