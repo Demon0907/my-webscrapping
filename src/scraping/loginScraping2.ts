@@ -1,6 +1,6 @@
 "use server";
 import puppeteer, { Browser, Page } from "puppeteer-core";
-import chromium from "chrome-aws-lambda";
+import { getOptions } from "./amazonLogin";
 
 interface LoginCredentials {
   username: string;
@@ -11,12 +11,8 @@ let browser: Browser | null = null;
 let page: Page | null = null;
 
 export const initialize = async () => {
-  browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath,
-    headless: chromium.headless,
-  });
+  const options = await getOptions();
+  browser = await puppeteer.launch(options);
 
   page = await browser.newPage();
 

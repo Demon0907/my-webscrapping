@@ -18,13 +18,30 @@ export const getAmazonInstance = async (): Promise<{
   return { page: amazonPage, browser: amazonBrowser };
 };
 
+// since its launched in the browser, I use chrome-aws-lambda
+export const getOptions = async () => {
+  if (process.env.NODE_ENV === "production") {
+    return {
+      args: chromium.args,
+      executablePath: await chromium.executablePath,
+      headless: true,
+      defaultViewport: chromium.defaultViewport,
+    };
+  } else {
+    // Mac OS
+    const executablePath =
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+
+    return {
+      args: [],
+      executablePath: executablePath,
+      headless: true,
+    };
+  }
+};
 export const initialize = async () => {
-  amazonBrowser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath,
-    headless: chromium.headless,
-  });
+  const options = await getOptions();
+  amazonBrowser = await puppeteer.launch(options);
 
   amazonPage = await amazonBrowser.newPage();
 
@@ -224,7 +241,6 @@ export const login = async (
     if (loginStatus) {
       // Fetch orders immediately after successful login
       const orderResult = await getOrderHistory(page);
-      console.log("🚀 ~ orderResult:", orderResult);
 
       return {
         success: true,

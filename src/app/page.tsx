@@ -7,7 +7,6 @@ import React, { useState } from "react";
 
 export default function Home() {
   const [orders, setOrders] = useState<OrderDetails[]>([]);
-  console.log("🚀 ~ Home ~ orders:", orders);
   const [loginSuccess, setLoginSuccess] = useState(false);
 
   return (
