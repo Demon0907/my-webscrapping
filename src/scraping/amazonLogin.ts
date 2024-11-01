@@ -5,7 +5,7 @@ import puppeteer, {
   PuppeteerLaunchOptions,
 } from "puppeteer-core";
 import { getOrderHistory, OrderDetails } from "./orderScraping";
-import chromium from "chrome-aws-lambda";
+import chromium from "@sparticuz/chromium";
 
 interface LoginCredentials {
   username: string;
@@ -32,7 +32,9 @@ export const getOptions = async () => {
         "--incognito",
         "--hide-scrollbars",
       ],
-      executablePath: await chromium.executablePath,
+      executablePath: await chromium.executablePath(
+        "https://github.com/Sparticuz/chromium/releases/download/v110.0.1/chromium-v110.0.1-pack.tar"
+      ),
       headless: true,
       defaultViewport: chromium.defaultViewport,
     };
@@ -41,15 +43,10 @@ export const getOptions = async () => {
     // check for platform
     if (process.platform === "darwin") {
       // Mac OS
-      executablePath =
-        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-    } else if (process.platform === "linux") {
-      // Linux
-      executablePath = "/usr/bin/google-chrome";
+      executablePath = process.env.CHROME_EXECUTABLE_PATH_MAC ?? "";
     } else if (process.platform === "win32") {
       // Windows
-      executablePath =
-        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
+      executablePath = process.env.CHROME_EXECUTABLE_PATH_WIN ?? "";
     }
 
     return {
