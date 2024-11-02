@@ -25,25 +25,27 @@ npm run dev
 # or
 yarn dev
 ```
-Once the server is running, you can access the application at `http://localhost:3000`.
+Once the server is running, you can access the application at `https://my-webscarping-demon.netlify.app` or `http://localhost:3000`.
 
-## Usage
-- Select the platform (Amazon or Ajio)
 
 ## Important Login Steps:
 1. For Search Order Scraping:
-   - Navigate to `http://localhost:3000/search-order`.
+   - Navigate to `https://my-webscarping-demon.netlify.app/search-order` or `http://localhost:3000/search-order` .
    - Enter your search strings (you can add multiple search terms as needed).
    - View all search results.
 
 2. For Order History Scraping:
+   - Navigate to `https://my-webscarping-demon.netlify.app/`
    - Login with Amazon credentials
    - View your recent order history automatically extracted
+      **Note:** The login process may require manual interaction, which could lead to errors if run automatically on the server. I suggest running it on a local machine, as this will open the test browser in Chromium, allowing manual inputs as needed.
 
 3. For Manual Factor Authentication (MFA):
+   - Navigate to `https://my-webscarping-demon.netlify.app/`
    - Login with Ajio mobile number
    - Complete OTP verification manually
    - Access your Ajio account securely
+      **Note:** The login process may require manual interaction, which could lead to errors if run automatically on the server. I suggest running it on a local machine, as this will open the test browser in Chromium, allowing manual inputs as needed.
 
 ## Amazon Product Search Scraper
 This project includes functionality to scrape product information from Amazon search results.
