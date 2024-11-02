@@ -39,7 +39,7 @@ Once the server is running, you can access the application at `https://my-websca
    - Login with Amazon credentials
    - View your recent order history automatically extracted
 
-     **Note:** The login process may require manual interaction, which could lead to errors if run automatically on the server. I suggest running it on a local machine, as this will open the test browser in Chromium, allowing manual inputs as needed.
+    > ⚠️ **Note:** The login process may require manual interaction, which could lead to errors if run automatically on the server. I suggest running it on a local machine, as this will open the test browser in Chromium, allowing manual inputs as needed.
 
 3. For Manual Factor Authentication (MFA):
    - Navigate to `https://my-webscarping-demon.netlify.app/`
@@ -47,7 +47,7 @@ Once the server is running, you can access the application at `https://my-websca
    - Complete OTP verification manually
    - Access your Ajio account securely
 
-      **Note:** The login process may require manual interaction, which could lead to errors if run automatically on the server. I suggest running it on a local machine, as this will open the test browser in Chromium, allowing manual inputs as needed.
+    > ⚠️ **Note:** The login process may require manual interaction, which could lead to errors if run automatically on the server. I suggest running it on a local machine, as this will open the test browser in Chromium, allowing manual inputs as needed.
 
 ## Amazon Product Search Scraper
 This project includes functionality to scrape product information from Amazon search results.
