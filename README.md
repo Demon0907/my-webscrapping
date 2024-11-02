@@ -46,11 +46,7 @@ Once the server is running, you can access the application at `http://localhost:
    - Access your Ajio account securely
 
 ## Amazon Product Search Scraper
-
 This project includes functionality to scrape product information from Amazon search results.
-
-## Search Order Scraping
-
 The `scrapeAmazon` function allows you to search and scrape product information from Amazon.in. Here's how it works:
 
 ### Features
