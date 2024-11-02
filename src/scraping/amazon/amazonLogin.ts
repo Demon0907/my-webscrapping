@@ -29,6 +29,7 @@ export const getOptions = async () => {
       args: [
         ...chromium.args,
         "--no-sandbox",
+        "--disable-setuid-sandbox",
         "--incognito",
         "--hide-scrollbars",
         "--font-render-hinting=none",
@@ -37,7 +38,8 @@ export const getOptions = async () => {
       executablePath: await chromium.executablePath(
         "https://oceanjar-new.s3.ap-south-1.amazonaws.com/images/reliance/flights/chromium-v130.0.0-pack.tar"
       ),
-      headless: chromium.headless,
+      // headless: chromium.headless,
+      headless: "new",
       defaultViewport: chromium.defaultViewport,
       ignoreHTTPSErrors: true,
     };
