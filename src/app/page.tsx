@@ -85,8 +85,7 @@ export default function Home() {
           <div className="mb-6 flex justify-between items-center">
             <button
               onClick={() => setSelectedPlatform(null)}
-              className="inline-flex items-center text-gray-600 hover:text-gray-900 gap-2 
-                       transition-colors duration-200"
+              className="inline-flex items-center text-gray-600 hover:text-gray-900 gap-2 group"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -98,6 +97,7 @@ export default function Home() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                className="transform group-hover:-translate-x-1 transition-transform"
               >
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
@@ -147,7 +147,7 @@ export default function Home() {
         </div>
       ) : (
         <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-8">
-          <Orders orders={orders} />
+          <Orders orders={orders} onBack={() => setLoginSuccess(false)} />
         </div>
       )}
     </main>

@@ -1,4 +1,4 @@
-import { initialize, login } from "@/scraping/ajio/ajioLogin";
+import { close, initialize, login } from "@/scraping/ajio/ajioLogin";
 import { NextResponse } from "next/server";
 
 const AJIO_LOGIN_URL = "https://www.ajio.com/";
@@ -32,5 +32,7 @@ export async function POST(request: Request) {
       },
       { status: 500 }
     );
+  } finally {
+    close();
   }
 }

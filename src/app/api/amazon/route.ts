@@ -1,4 +1,4 @@
-import { initialize, login } from "@/scraping/amazon/amazonLogin";
+import { close, initialize, login } from "@/scraping/amazon/amazonLogin";
 import { NextResponse } from "next/server";
 
 const AMAZON_LOGIN_URL =
@@ -36,5 +36,7 @@ export async function POST(request: Request) {
       },
       { status: 500 }
     );
+  } finally {
+    close();
   }
 }

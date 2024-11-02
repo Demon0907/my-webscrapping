@@ -13,8 +13,6 @@ export interface SearchProductResponse extends LoginResponse {
   products?: { [searchString: string]: SearchProduct[] };
 }
 
-const MAX_RESULTS = 10;
-
 export const scrapeAmazon = async (
   page: Page,
   searchStrings: string[]
@@ -57,7 +55,7 @@ export const scrapeAmazon = async (
           const link = item.querySelector("h2 a") as HTMLAnchorElement;
           return link && link.href;
         })
-        .slice(0, MAX_RESULTS);
+        .slice(0, 10);
       return filteredElements.map((item) => ({
         name: item.querySelector("h2 a span")?.textContent || "No name",
         price:

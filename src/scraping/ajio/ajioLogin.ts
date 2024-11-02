@@ -229,3 +229,11 @@ async function proceedWithLogin(page: Page, mobile: string) {
     };
   }
 }
+
+export const close = async () => {
+  if (ajioBrowser) {
+    await ajioBrowser.close();
+    ajioBrowser = null;
+    ajioPage = null;
+  }
+};

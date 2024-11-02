@@ -5,8 +5,8 @@ import puppeteer, {
   PuppeteerLaunchOptions,
 } from "puppeteer-core";
 import { getOrderHistory, OrderDetails } from "./orderScraping";
-import chromium from "@sparticuz/chromium";
-
+import chromium from "@sparticuz/chromium-min";
+// https://oceanjar-new.s3.ap-south-1.amazonaws.com/images/reliance/flights/chromium-v130.0.0-pack.tar
 interface LoginCredentials {
   username: string;
   password: string;
@@ -34,7 +34,9 @@ export const getOptions = async () => {
         "--font-render-hinting=none",
         "--disable-font-subpixel-positioning",
       ],
-      executablePath: await chromium.executablePath(),
+      executablePath: await chromium.executablePath(
+        "https://oceanjar-new.s3.ap-south-1.amazonaws.com/images/reliance/flights/chromium-v130.0.0-pack.tar"
+      ),
       headless: chromium.headless,
       defaultViewport: chromium.defaultViewport,
       ignoreHTTPSErrors: true,
@@ -247,7 +249,7 @@ export const login = async (
 
     // Check if redirected to verification page
     const currentUrl = page.url();
-    if (currentUrl.includes("/ap/cvf/request")) {
+    if (currentUrl.includes("/ap/cvf")) {
       console.log(
         "Verification page detected, waiting for user interaction..."
       );
@@ -258,7 +260,6 @@ export const login = async (
           setTimeout(() => reject(new Error("Verification timeout")), 300000)
         ),
       ]);
-
       console.log("User completed verification, continuing...");
     }
     const loginStatus = await checkAmazonLoginStatus(page);
