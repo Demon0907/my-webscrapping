@@ -35,9 +35,11 @@ export const getOptions = async () => {
         "--font-render-hinting=none",
         "--disable-font-subpixel-positioning",
       ],
-      executablePath: await chromium.executablePath(),
+      executablePath: await chromium.executablePath(
+        "https://oceanjar-new.s3.ap-south-1.amazonaws.com/images/reliance/flights/chromium-v130.0.0-pack.tar"
+      ),
       // headless: chromium.headless,
-      headless: "new",
+      headless: false,
       defaultViewport: chromium.defaultViewport,
       ignoreHTTPSErrors: true,
     };
