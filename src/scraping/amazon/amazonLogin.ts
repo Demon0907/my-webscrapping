@@ -125,7 +125,7 @@ async function checkAmazonLoginStatus(page: Page): Promise<boolean> {
   }
 }
 
-interface LoginResponse {
+export interface LoginResponse {
   success: boolean;
   message: string;
   error?: string;
