@@ -31,14 +31,58 @@ Once the server is running, you can access the application at `http://localhost:
 - Select the platform (Amazon or Ajio)
 
 ## Important Login Steps:
-1. For Order History Scraping:
+1. For Search Order Scraping:
+   - Navigate to `http://localhost:3000/search-order`.
+   - Enter your search strings (you can add multiple search terms as needed).
+   - View all search results.
+
+2. For Order History Scraping:
    - Login with Amazon credentials
    - View your recent order history automatically extracted
 
-2. For Manual Factor Authentication (MFA):
+3. For Manual Factor Authentication (MFA):
    - Login with Ajio mobile number
    - Complete OTP verification manually
    - Access your Ajio account securely
+
+## Amazon Product Search Scraper
+
+This project includes functionality to scrape product information from Amazon search results.
+
+## Search Order Scraping
+
+The `scrapeAmazon` function allows you to search and scrape product information from Amazon.in. Here's how it works:
+
+### Features
+
+- Searches multiple product terms simultaneously
+- Extracts product details including:
+  - Product name
+  - Price
+  - Product link
+  - Rating
+  - Number of global ratings
+- Returns structured data for easy processing
+
+### Usage
+
+- The scraper includes a 2-second delay between consecutive searches
+- Additional 1-second wait for page loading
+- Automatically waits for search results to load using `.s-search-results` selector
+
+### Limitations
+
+- Currently limited to 10 results per search term by default
+- Only works with Amazon.in domain
+- Requires an active Puppeteer browser session
+
+### Error Handling
+
+The scraper includes basic error handling:
+- Checks for browser initialization
+- Validates search results presence
+- Returns structured error messages
+
 
 ## Amazon Login and Order Scraping
 - Automated Amazon login
