@@ -7,10 +7,10 @@ interface OrdersProps {
 const Orders = ({ orders }: OrdersProps) => {
   return (
     <div className="mt-8 p-6">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Your Orders</h2>
+      <h2 className="text-2xl font-bold mb-6 text-primary-800">Your Orders</h2>
 
       {orders.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-md p-8 text-center">
+        <div className="bg-white rounded-xl border border-gray-100 p-8 text-center">
           <p className="text-gray-500 text-lg">No orders found</p>
           <p className="text-gray-400 text-sm mt-2">
             Your Amazon orders will appear here once available
@@ -21,7 +21,8 @@ const Orders = ({ orders }: OrdersProps) => {
           {orders.map((order, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+              className="bg-white rounded-xl border border-gray-100 p-6 
+                       hover:shadow-md transition-all duration-200"
             >
               <div className="flex flex-col gap-3">
                 <h3 className="font-semibold text-lg text-gray-800 line-clamp-2">
@@ -29,7 +30,10 @@ const Orders = ({ orders }: OrdersProps) => {
                 </h3>
                 <div className="flex flex-col gap-2 text-sm text-gray-600">
                   <p className="font-medium">
-                    Price: <span className="text-green-600">{order.price}</span>
+                    Price:{" "}
+                    <span className="text-primary-600 font-semibold">
+                      {order.price}
+                    </span>
                   </p>
                   <p>Order Date: {order.orderDate}</p>
                 </div>
@@ -37,9 +41,23 @@ const Orders = ({ orders }: OrdersProps) => {
                   href={order.productLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-700 transition-colors inline-flex items-center gap-1 mt-2"
+                  className="text-primary-600 hover:text-primary-700 
+                           transition-colors inline-flex items-center gap-1 
+                           mt-2 font-medium"
                 >
                   View Product
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
                 </a>
               </div>
             </div>

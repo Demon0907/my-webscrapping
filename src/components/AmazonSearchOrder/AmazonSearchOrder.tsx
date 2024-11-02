@@ -29,24 +29,25 @@ const AmazonSearchOrder = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="w-[80rem] mx-auto">
-        <header className="flex justify-between items-center p-6 border-b bg-white">
-          <h1 className="text-2xl font-bold text-gray-800">
+    <div className="min-h-screen flex flex-col bg-white">
+      <div className="w-[80rem] mx-auto bg-white">
+        <header className="flex justify-between items-center px-8 py-6 border-b sticky top-0 z-10 bg-white">
+          <h1 className="text-2xl font-bold text-primary-800">
             Amazon Product Search
           </h1>
           {hasSearched && !showSearch && (
             <button
               onClick={() => setShowSearch(true)}
-              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-primary-50 text-primary-700 rounded-lg hover:bg-primary-100 
+                       transition-all duration-200 flex items-center gap-2 hover:shadow-sm"
             >
-              ← Back to Search
+              <span>←</span> Back to Search
             </button>
           )}
         </header>
 
-        <main className="flex-1 overflow-hidden">
-          <div className="h-full flex flex-col md:flex-row">
+        <main className="flex-1">
+          <div className="flex flex-col md:flex-row min-h-[calc(100vh-5rem)]">
             {showSearch ? (
               <SearchForm onSearch={handleSearch} />
             ) : (

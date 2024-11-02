@@ -7,47 +7,59 @@ interface ResultsDisplayProps {
 
 const OrderDisplay = ({ results, isLoading }: ResultsDisplayProps) => {
   return (
-    <section className="flex-grow w-full overflow-y-auto">
-      <h2 className="text-2xl font-semibold mb-4 text-gray-800">Results</h2>
-
+    <section className="flex-grow p-8 bg-white overflow-y-auto">
       {isLoading ? (
-        <div role="status" className="flex justify-center items-center py-8">
+        <div className="flex justify-center items-center h-[calc(100vh-10rem)]">
           <div
-            className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"
+            className="animate-spin rounded-full h-12 w-12 border-4 border-gray-100 
+                     border-t-primary-600"
             aria-label="Loading"
-          ></div>
+          />
         </div>
       ) : Object.keys(results).length > 0 ? (
-        <div className="space-y-6">
+        <div className="space-y-8">
           {Object.entries(results).map(([searchString, products], idx) => (
-            <article key={idx} className="space-y-3">
-              <h3 className="text-xl font-semibold text-gray-800">
-                {searchString}
+            <article
+              key={idx}
+              className="border border-gray-100 rounded-xl p-6"
+            >
+              <h3 className="text-xl font-semibold text-primary-800 mb-6">
+                Results for &quot;{searchString}&quot;
               </h3>
               <div className="overflow-x-auto">
-                <ul className="flex space-x-4 pb-4 overflow-x-auto">
+                <ul className="flex gap-4 pb-4 min-w-full">
                   {Array.isArray(products) &&
                     products.map((product, productIdx) => (
                       <li
                         key={productIdx}
-                        className="flex-shrink-0 w-64 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow flex flex-col h-48"
+                        className="flex-shrink-0 w-72 bg-white border border-gray-100 
+                                 rounded-xl hover:shadow-md transition-all duration-200 
+                                 flex flex-col h-52 overflow-hidden group"
                       >
-                        <a
-                          href={product.productLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800 font-medium mb-2 line-clamp-3 flex-grow"
-                        >
-                          {product.name}
-                        </a>
-                        <div className="mt-auto space-y-2">
-                          {product.rating && (
-                            <div className="text-sm text-gray-600">
-                              ⭐ {product.rating} ({product.globalRating})
+                        <div className="p-4 flex flex-col h-full">
+                          <a
+                            href={product.productLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-800 hover:text-primary-600 font-medium 
+                                     mb-2 line-clamp-3 flex-grow transition-colors 
+                                     duration-200"
+                          >
+                            {product.name}
+                          </a>
+                          <div className="mt-auto space-y-2 pt-2 border-t border-gray-50">
+                            {product.rating && (
+                              <div className="flex items-center gap-1 text-sm text-gray-600">
+                                <span className="text-yellow-400">★</span>
+                                <span>{product.rating}</span>
+                                <span className="text-gray-400">
+                                  ({product.globalRating})
+                                </span>
+                              </div>
+                            )}
+                            <div className="text-primary-600 font-semibold text-lg">
+                              {product.price}
                             </div>
-                          )}
-                          <div className="text-green-600 font-medium text-lg">
-                            {product.price}
                           </div>
                         </div>
                       </li>
@@ -58,9 +70,11 @@ const OrderDisplay = ({ results, isLoading }: ResultsDisplayProps) => {
           ))}
         </div>
       ) : (
-        <p className="text-gray-500 text-center py-4">
-          No results found. Try searching for something else.
-        </p>
+        <div className="flex flex-col items-center justify-center h-[calc(100vh-10rem)]">
+          <p className="text-gray-500 text-lg">
+            No results found. Try searching for something else.
+          </p>
+        </div>
       )}
     </section>
   );
