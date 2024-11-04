@@ -40,6 +40,7 @@ Once the server is running, you can access the application at `https://my-websca
    - View your recent order history automatically extracted
 
     > ⚠️ **Note:** The login process may require manual interaction, which could lead to errors if run automatically on the server. I suggest running it on a local machine, as this will open the test browser in Chromium, allowing manual inputs as needed.
+**[Vercel issue as resticts to <50MB](https://github.com/orgs/vercel/discussions/124)** - Taking much time to find alternate hosting options
 
 3. For Manual Factor Authentication (MFA):
    - Navigate to `https://my-webscarping-demon.netlify.app/`
