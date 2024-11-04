@@ -35,7 +35,7 @@ Once the server is running, you can access the application at `https://my-websca
    - View all search results.
 
 2. For Order History Scraping:
-   - Navigate to `https://my-webscarping-demon.netlify.app/`
+   - Navigate to **[Demo](https://my-webscarping-demon.netlify.app/)**
    - Login with Amazon credentials
    - View your recent order history automatically extracted
 
@@ -43,7 +43,7 @@ Once the server is running, you can access the application at `https://my-websca
 **[Vercel issue as resticts to <50MB](https://github.com/orgs/vercel/discussions/124)** - Taking much time to find alternate hosting options
 
 3. For Manual Factor Authentication (MFA):
-   - Navigate to `https://my-webscarping-demon.netlify.app/`
+   - Navigate to  **[Demo](https://my-webscarping-demon.netlify.app/)**
    - Login with Ajio mobile number
    - Complete OTP verification manually
    - Access your Ajio account securely
